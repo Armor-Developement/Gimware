@@ -119,7 +119,9 @@ masterButton.onmouseover = () => masterButton.style.backgroundColor = '#5a2dff';
 masterButton.onmouseout = () => masterButton.style.backgroundColor = '#7c4dff'; // Reset to original color
 masterButton.style.margin = '10px'; // Add margin to space buttons
 masterButton.style.display = 'none'; // Initially hidden
-masterButton.addEventListener('click', () => alert('Crash All Clicked!')); // Button functionality
+masterButton.addEventListener('click', () => {
+    location.reload(); // Reload the page
+}); // Button functionality
 mainContent.appendChild(masterButton);
 
 // Add elements to the container
