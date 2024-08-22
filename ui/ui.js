@@ -109,7 +109,7 @@ const buttons = buttonTexts.map(text => {
 });
 
 // Create and style the new buttons for UI section
-const uiButtonLabels = ['New Button 1', 'New Button 2', 'New Button 3'];
+const uiButtonLabels = ['Darkmode', 'Eye Destruction', 'Override Text'];
 const newUiButtons = uiButtonLabels.map(label => {
     const uiButton = document.createElement('button');
     uiButton.textContent = label;
