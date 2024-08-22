@@ -1,0 +1,12 @@
+Shop
+- Uncap Gimbucks
+- Change Level
+- Shop Prices?
+
+Master
+- Crash Game
+
+UI 
+- Darkmode
+- Eye Destruction
+- Overide Names
