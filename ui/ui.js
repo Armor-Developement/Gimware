@@ -58,8 +58,8 @@ mainContent.style.alignItems = 'center';
 mainContent.style.justifyContent = 'center'; // Center buttons vertically
 mainContent.style.position = 'relative';
 
-// Create and style the original buttons inside the container
-const buttonTexts = ['Click Me', 'Another Button', 'Yet Another Button'];
+// Create and style the original buttons inside the container with updated text
+const buttonTexts = ['Uncap Gimbucks', 'Uncap Level', 'Free Shop'];
 const buttons = buttonTexts.map(text => {
     const button = document.createElement('button');
     button.textContent = text;
@@ -75,8 +75,36 @@ const buttons = buttonTexts.map(text => {
     button.onmouseover = () => button.style.backgroundColor = '#5a2dff'; // Darker purple on hover
     button.onmouseout = () => button.style.backgroundColor = '#7c4dff'; // Reset to original color
     button.style.margin = '10px'; // Add margin to space buttons
-    button.addEventListener('click', () => alert(`${text} Clicked!`)); // Button functionality
     mainContent.appendChild(button);
+
+    if (text === 'Uncap Gimbucks') {
+        button.addEventListener('click', () => {
+            let userInput = prompt("Input Gimbucks Amount:");
+            
+            if (userInput !== null) {
+                let targetDiv = document.querySelector('.sc-dkKxlM.bBtDiy');
+
+                if (!targetDiv) {
+                    targetDiv = document.querySelector('.sc-dkKxlM.bBtDiy');
+                }
+
+                if (!targetDiv) {
+                    targetDiv = document.querySelector('.sc-dWRHGJ.dbnTXT[style="margin-left: 5px;"]');
+                }
+
+                if (targetDiv) {
+                    targetDiv.innerText = userInput;
+                } else {
+                    console.error("Element not found, please check query selector.");
+                }
+            }
+        });
+    } else if (text === 'Uncap Level') {
+        button.addEventListener('click', () => alert('Uncap Level Clicked!'));
+    } else if (text === 'Free Shop') {
+        button.addEventListener('click', () => alert('Free Shop Clicked!'));
+    }
+
     return button; // Return button to ensure it's added to the array
 });
 
@@ -147,7 +175,11 @@ gimwareBox.style.zIndex = '1000'; // Ensure it stays above other content
 
 // Add event listener to the Gimware box to toggle the UI container
 gimwareBox.addEventListener('click', () => {
-    container.style.display = container.style.display === 'none' ? 'flex' : 'none';
+    if (container.style.display === 'none') {
+        container.style.display = 'flex';
+    } else {
+        container.style.display = 'none';
+    }
 });
 
 // Add event listeners to the sidebar buttons
@@ -182,3 +214,4 @@ const fontLink = document.createElement('link');
 fontLink.href = 'https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap';
 fontLink.rel = 'stylesheet';
 document.head.appendChild(fontLink);
+
