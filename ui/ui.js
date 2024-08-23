@@ -30,7 +30,7 @@ sidebar.style.justifyContent = 'space-around';
 sidebar.style.padding = '10px';
 
 // Create and style the square buttons with specific text
-const sidebarButtonLabels = ['Shop', 'UI', 'Master'];
+const sidebarButtonLabels = ['Shop', 'UI', 'Host'];
 sidebarButtonLabels.forEach(label => {
     const squareButton = document.createElement('button');
     squareButton.textContent = label;
