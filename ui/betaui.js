@@ -242,16 +242,23 @@ function updateGimbucksAmount() {
 }
 
 function updateLevel() {
-    let userInput = prompt("Input Level:");
+    // Prompt the user for a new level number
+    var newLevel = prompt("Input Level");
 
-    if (userInput !== null) {
-        let targetDiv = document.querySelector('.sc-idXgbr dPokMS');
+    // Check if the user provided an input
+    if (newLevel !== null && newLevel.trim() !== "") {
+        // Find the div element with the specified class
+        var levelDiv = document.querySelector('.sc-idXgbr.dPokMS');
 
-        if (targetDiv) {
-            targetDiv.innerHTML = `Level ${userInput} <br><small style="font-size: 10px;">uncapped with Midnight Injector</small>`;
+        // Check if the div was found
+        if (levelDiv) {
+            // Update the div content with the new level
+            levelDiv.textContent = 'Level ' + newLevel;
         } else {
-            console.error("Element not found, please check query selector.");
+            console.error("Div element not found");
         }
+    } else {
+        console.error("Invalid input");
     }
 }
 
