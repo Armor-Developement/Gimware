@@ -31,6 +31,7 @@ sidebar.style.padding = '10px';
 
 // Create and style the square buttons with specific text
 const sidebarButtonLabels = ['Shop', 'UI', 'Host'];
+const sidebarButtons = {};
 sidebarButtonLabels.forEach(label => {
     const squareButton = document.createElement('button');
     squareButton.textContent = label;
@@ -47,6 +48,16 @@ sidebarButtonLabels.forEach(label => {
     squareButton.onmouseover = () => squareButton.style.backgroundColor = '#5a2dff'; // Darker purple on hover
     squareButton.onmouseout = () => squareButton.style.backgroundColor = '#7c4dff'; // Reset to original color
     sidebar.appendChild(squareButton);
+
+    if (label === 'Shop') {
+        squareButton.addEventListener('click', showShopButtons);
+    } else if (label === 'UI') {
+        squareButton.addEventListener('click', showUiButtons);
+    } else if (label === 'Host') {
+        squareButton.addEventListener('click', showHostButtons); // Updated to call showHostButtons function
+    }
+
+    sidebarButtons[label] = squareButton; // Store reference to the button
 });
 
 // Create and style the main content area
@@ -78,31 +89,11 @@ const buttons = buttonTexts.map(text => {
     mainContent.appendChild(button);
 
     if (text === 'Uncap Gimbucks') {
-        button.addEventListener('click', () => {
-            let userInput = prompt("Input Gimbucks Amount:");
-            
-            if (userInput !== null) {
-                let targetDiv = document.querySelector('.sc-dkKxlM.bBtDiy');
-
-                if (!targetDiv) {
-                    targetDiv = document.querySelector('.sc-dkKxlM.bBtDiy');
-                }
-
-                if (!targetDiv) {
-                    targetDiv = document.querySelector('.sc-dWRHGJ.dbnTXT[style="margin-left: 5px;"]');
-                }
-
-                if (targetDiv) {
-                    targetDiv.innerText = userInput;
-                } else {
-                    console.error("Element not found, please check query selector.");
-                }
-            }
-        });
+        button.addEventListener('click', handleUncapGimbucks);
     } else if (text === 'Uncap Level') {
-        button.addEventListener('click', () => alert('Uncap Level Clicked!'));
+        button.addEventListener('click', handleUncapLevel);
     } else if (text === 'Free Shop') {
-        button.addEventListener('click', () => alert('Free Shop Clicked!'));
+        button.addEventListener('click', handleFreeShop);
     }
 
     return button; // Return button to ensure it's added to the array
@@ -126,7 +117,11 @@ const newUiButtons = uiButtonLabels.map(label => {
     uiButton.onmouseout = () => uiButton.style.backgroundColor = '#7c4dff'; // Reset to original color
     uiButton.style.margin = '10px'; // Add margin to space buttons
     uiButton.style.display = 'none'; // Initially hidden
-    uiButton.addEventListener('click', () => alert(`${label} Clicked!`)); // Button functionality
+    uiButton.addEventListener('click', () => {
+        if (label === 'Darkmode') handleDarkmode();
+        if (label === 'Eye Destruction') handleEyeDestruction();
+        if (label === 'Override Text') handleOverrideText();
+    }); // Button functionality
     mainContent.appendChild(uiButton);
     return uiButton; // Return button to ensure it's added to the array
 });
@@ -147,9 +142,7 @@ masterButton.onmouseover = () => masterButton.style.backgroundColor = '#5a2dff';
 masterButton.onmouseout = () => masterButton.style.backgroundColor = '#7c4dff'; // Reset to original color
 masterButton.style.margin = '10px'; // Add margin to space buttons
 masterButton.style.display = 'none'; // Initially hidden
-masterButton.addEventListener('click', () => {
-    location.reload(); // Reload the page
-}); // Button functionality
+masterButton.addEventListener('click', handleCrashAll);
 mainContent.appendChild(masterButton);
 
 // Add elements to the container
@@ -158,60 +151,167 @@ container.appendChild(mainContent);
 
 // Create and style the Gimware text in the top-right corner of the popup
 const gimwareBox = document.createElement('div');
-gimwareBox.textContent = 'Open'; // Updated text
-gimwareBox.style.position = 'fixed';
+gimwareBox.textContent = 'Gimware'; // Updated text
+gimwareBox.style.position = 'absolute';
 gimwareBox.style.top = '10px';
-gimwareBox.style.left = '10px';
-gimwareBox.style.backgroundColor = '#ffffff';
-gimwareBox.style.border = '2px solid #7c4dff'; // Purple border
-gimwareBox.style.borderRadius = '20px';
-gimwareBox.style.padding = '5px 10px';
-gimwareBox.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)'; // Shadow effect
-gimwareBox.style.color = '#7c4dff'; // Purple text color
-gimwareBox.style.fontSize = '16px'; // Smaller font size
-gimwareBox.style.fontWeight = '700';
-gimwareBox.style.cursor = 'pointer'; // Make it clickable
-gimwareBox.style.zIndex = '1000'; // Ensure it stays above other content
+gimwareBox.style.right = '10px';
+gimwareBox.style.fontSize = '20px';
+gimwareBox.style.color = '#7c4dff'; // Purple text
+gimwareBox.style.cursor = 'pointer';
+gimwareBox.style.fontWeight = 'bold';
 
 // Add event listener to the Gimware box to toggle the UI container
 gimwareBox.addEventListener('click', () => {
-    if (container.style.display === 'none') {
-        container.style.display = 'flex';
-    } else {
-        container.style.display = 'none';
-    }
+    container.style.display = container.style.display === 'none' ? 'flex' : 'none';
 });
 
 // Add event listeners to the sidebar buttons
-const shopButton = sidebar.querySelector('button:nth-child(1)');
-const uiButton = sidebar.querySelector('button:nth-child(2)');
-const masterButtonSidebar = sidebar.querySelector('button:nth-child(3)');
-
-shopButton.addEventListener('click', () => {
+function showShopButtons() {
     buttons.forEach(button => button.style.display = 'flex');
     newUiButtons.forEach(button => button.style.display = 'none');
     masterButton.style.display = 'none';
-});
+}
 
-uiButton.addEventListener('click', () => {
+function showUiButtons() {
     buttons.forEach(button => button.style.display = 'none');
     newUiButtons.forEach(button => button.style.display = 'flex');
     masterButton.style.display = 'none';
-});
+}
 
-masterButtonSidebar.addEventListener('click', () => {
-    buttons.forEach(button => button.style.display = 'none');
-    newUiButtons.forEach(button => button.style.display = 'none');
-    masterButton.style.display = 'flex';
-});
+function showHostButtons() {
+    buttons.forEach(button => button.style.display = 'none'); // Hide shop buttons
+    newUiButtons.forEach(button => button.style.display = 'none'); // Hide UI buttons
+    masterButton.style.display = 'flex'; // Show master button
+}
 
-// Add elements to the body
-document.body.appendChild(gimwareBox);
+function invertColors() {
+    const elements = document.querySelectorAll('*');
+
+    elements.forEach((el) => {
+        const computedStyle = getComputedStyle(el);
+
+        const bgColor = computedStyle.backgroundColor;
+        if (bgColor === 'rgb(255, 255, 255)') {
+            el.style.backgroundColor = 'rgb(50, 50, 50)';
+        } else if (bgColor === 'rgb(0, 0, 0)' || bgColor.startsWith('rgb(128')) {
+            el.style.backgroundColor = 'rgb(255, 255, 255)';
+        }
+
+        const textColor = computedStyle.color;
+        if (textColor === 'rgb(255, 255, 255)') {
+            el.style.color = 'rgb(50, 50, 50)';
+        } else if (textColor === 'rgb(0, 0, 0)' || textColor.startsWith('rgb(128')) {
+            el.style.color = 'rgb(255, 255, 255)';
+        }
+
+        el.style.setProperty('color', el.style.color, 'important');
+        el.style.setProperty('background-color', el.style.backgroundColor, 'important');
+    });
+}
+
+function eyeDestruction() {
+    const allElements = document.querySelectorAll('*');
+    allElements.forEach(element => {
+        element.style.backgroundColor = 'white';
+        element.style.color = 'white';
+        element.style.borderColor = 'white';
+    });
+    document.body.style.backgroundColor = 'white';
+}
+
+function updateGimbucksAmount() {
+    let userInput = prompt("Input Gimbucks Amount:");
+
+    if (userInput !== null) {
+        let targetDiv = document.querySelector('.sc-dkKxlM bBtDiy');
+
+        if (!targetDiv) {
+            targetDiv = document.querySelector('.sc-dkKxlM bBtDiy');
+        }
+
+        if (!targetDiv) {
+            targetDiv = document.querySelector('.sc-dWRHGJ.dbnTXT[style="margin-left: 5px;"]');
+        }
+
+        if (targetDiv) {
+            targetDiv.innerText = userInput;
+        } else {
+            console.error("Element not found, please check query selector.");
+        }
+    }
+}
+
+function updateLevel() {
+    // Prompt the user for a new level number
+    var newLevel = prompt("Input Level");
+
+    // Check if the user provided an input
+    if (newLevel !== null && newLevel.trim() !== "") {
+        // Find the div element with the specified class
+        var levelDiv = document.querySelector('.sc-idXgbr.dPokMS');
+
+        // Check if the div was found
+        if (levelDiv) {
+            // Update the div content with the new level
+            levelDiv.textContent = 'Level ' + newLevel;
+        } else {
+            console.error("Div element not found");
+        }
+    } else {
+        console.error("Invalid input");
+    }
+}
+
+function updateGimbucks() {
+    // Prompt the user for a new level number
+    var newGim = prompt("Input Gimbucks");
+
+    // Check if the user provided an input
+    if (newGim !== null && newGim.trim() !== "") {
+        // Find the div element with the specified class
+        var gimDiv = document.querySelector('.sc-fWQKxP.fDlznI');
+
+        // Check if the div was found
+        if (gimDiv) {
+            // Update the div content with the new level
+            gimDiv.textContent = newGim;
+        } else {
+            console.error("Div element not found");
+        }
+    } else {
+        console.error("Invalid input");
+    }
+}
+
+// Define functions for button actions
+function handleUncapGimbucks() {
+    updateGimbucks();
+}
+
+function handleUncapLevel() {
+    updateLevel();
+}
+
+function handleFreeShop() {
+    alert("Not working rn :(");
+}
+
+function handleDarkmode() {
+    invertColors();
+}
+
+function handleEyeDestruction() {
+    eyeDestruction();
+}
+
+function handleOverrideText() {
+    alert("Not working rn :(");
+}
+
+function handleCrashAll() {
+    location.reload();
+}
+
+// Add the container to the document body
 document.body.appendChild(container);
-
-// Load the Exo 2 font
-const fontLink = document.createElement('link');
-fontLink.href = 'https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap';
-fontLink.rel = 'stylesheet';
-document.head.appendChild(fontLink);
-
+document.body.appendChild(gimwareBox); // Add Gimware box to the body
