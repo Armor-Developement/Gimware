@@ -262,9 +262,30 @@ function updateLevel() {
     }
 }
 
+function updateGimbucks() {
+    // Prompt the user for a new level number
+    var newGim = prompt("Input Gimbucks");
+
+    // Check if the user provided an input
+    if (newGim !== null && newGim.trim() !== "") {
+        // Find the div element with the specified class
+        var gimDiv = document.querySelector('.sc-fWQKxP.fDlznI');
+
+        // Check if the div was found
+        if (gimDiv) {
+            // Update the div content with the new level
+            gimDiv.textContent = newGim;
+        } else {
+            console.error("Div element not found");
+        }
+    } else {
+        console.error("Invalid input");
+    }
+}
+
 // Define functions for button actions
 function handleUncapGimbucks() {
-    updateGimbucksAmount();
+    updateGimbucks();
 }
 
 function handleUncapLevel() {
