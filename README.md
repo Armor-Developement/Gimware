@@ -6,7 +6,7 @@ Gimware is an open sourced mod for the game Gimkit. Feel free to submit pull req
 
 **Installation**
 
--# Please note that installation is not currently available
+<sub>Please note that installation is not currently available</sub>
 
 - Go to Gimkit
 - Open up console with ```CTRL + SHIFT + J```
