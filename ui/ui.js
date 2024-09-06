@@ -1,4 +1,3 @@
-// Create and style the container
 const container = document.createElement('div');
 container.style.fontFamily = "'Exo 2', sans-serif";
 container.style.textAlign = 'center';
