@@ -2,6 +2,9 @@
 
 ## Welcome to Gimware!
 
+# Note: Gimware Development
+I have stopped development on this because it is so annoying to fix every day, if you would like to contuine, clone the repo - 9/13/24
+
 Gimware is an open sourced mod for the game Gimkit. Feel free to submit pull request and fork the repo and add things! (Just no skidding)
 
 **Latest Update**
